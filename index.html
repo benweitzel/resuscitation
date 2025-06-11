@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resuscitation Timer</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Page content -->
+        <div class="row">
+            <div class="col text-center">
+                <h1>Resuscitation Timer</h1>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <div class="timer-container">
+                            <div id="overall-timer" class="timer display-4">00:00</div>
+                            <div id="cycle-timer" class="timer display-4">02:00</div>
+                        </div>
+                        <div class="label-container mt-3">
+                            <small class="text-muted">Total Code Time</small>
+                            <small class="text-muted">Current CPR Cycle</small>
+                        </div>
+                        <div class="control-buttons mt-4">
+                            <button id="start-button" class="btn btn-success">Start</button>
+                            <button id="stop-button" class="btn btn-danger">Stop</button>
+                            <button id="reset-button" class="btn btn-warning">Reset</button>
+                        </div>
+                        <div class="metronome mt-4">
+                            <p>CPR Metronome (110 BPM)</p>
+                            <div id="metronome-visual" class="mx-auto"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Event Logger</h2>
+                        <div id="log-list" class="mb-4"></div>
+                        <div class="event-buttons text-center">
+                            <button class="event-button btn btn-primary btn-block mt-2" data-event="Shock Delivered">Shock Delivered</button>
+                            <button class="event-button btn btn-primary btn-block mt-2" data-event="Epinephrine Given">Epinephrine Given</button>
+                            <button class="event-button btn btn-primary btn-block mt-2" data-event="Amiodarone Given">Amiodarone Given</button>
+                            <button class="event-button btn btn-primary btn-block mt-2" data-event="Pulse Check">Pulse Check</button>
+                            <button class="event-button btn btn-primary btn-block mt-2" data-event="Airway Secured">Airway Secured</button>
+                            <button class="event-button btn btn-primary btn-block mt-2" data-event="ROSC">ROSC</button>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <input type="text" id="custom-event" class="form-control" placeholder="Custom Event">
+                            <button id="add-note-button" class="btn btn-info btn-block mt-2">Add Note</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <h2 class="card-title">Current Time</h2>
+                        <h1 id="current-time" class="mb-0"></h1>
+                        <button id="time-of-death-button" class="btn btn-danger mt-2">Time of Death</button>
+                        <div id="time-of-death-display" class="mt-2"></div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Rhythm Detection</h2>
+                        <select id="rhythm-select" class="form-control mb-2">
+                            <option value="none">Select Rhythm</option>
+                            <option value="vf_pvt">VF/pVT</option>
+                            <option value="pea">PEA</option>
+                            <option value="asystole">Asystole</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Suggested Next Steps</h2>
+                        <div id="suggested-steps-list" class="text-center">No suggested steps at this time.</div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title collapsible" data-toggle="collapse" href="#collapseDosage" role="button" aria-expanded="false" aria-controls="collapseDosage">
+                            Drug Dosage Reference
+                        </h2>
+                        <div id="collapseDosage" class="collapse">
+                            <ul>
+                                <li>Epinephrine: 1 mg IV/IO Push</li>
+                                <li>Amiodarone: 300 mg IV/IO push, second dose 150 mg</li>
+                                <li>Atropine: 1 mg IV/IO every 3-5 minutes</li>
+                            </ul>
+                            <p>Reference Only. Always confirm with local protocols and medical control. Not a substitute for clinical judgment.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title collapsible" data-toggle="collapse" href="#collapseChecklist" role="button" aria-expanded="false" aria-controls="collapseChecklist">
+                            H's & T's Checklist
+                        </h2>
+                        <div id="collapseChecklist" class="collapse">
+                            <ul>
+                                <li><input type="checkbox"> Hypoxia</li>
+                                <li><input type="checkbox"> Hypovolemia</li>
+                                <li><input type="checkbox"> Hypo/Hyperkalemia</li>
+                                <li><input type="checkbox"> Hypothermia</li>
+                                <li><input type="checkbox"> Toxins</li>
+                                <li><input type="checkbox"> Tamponade</li>
+                                <li><input type="checkbox"> Tension Pneumothorax</li>
+                                <li><input type="checkbox"> Thrombosis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <footer class="py-3 my-4">
+        <p class="text-center text-body-secondary">Reference Only. Always confirm with local protocols and medical control. Not a substitute for clinical judgment.</p>
+        <p class="text-center text-body-secondary">Created by Ben Weitzel at Yale University</p>
+    </footer>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
